@@ -50,7 +50,7 @@ export default {
       home: '/dashboard'
     },
     strategies: {
-      'local': {
+      local: {
         scheme: 'refresh',
         token: {
           property: 'access_token',

@@ -10,10 +10,7 @@
     middleware: 'auth',
     methods: {
       test() {
-        this.$axios.$get(`manage/test`)
-          .then(response => {
-            console.log(response);
-          });
+        console.log(this.$auth)
       },
     },
   }

@@ -53,9 +53,6 @@ export default {
   },
   mounted() {},
   methods: {
-    async passwordGrantLogin() {
-      await this.$auth.loginWith('laravel.passport', { data: this.form });
-    },
     async userLogin() {
       try {
         let response = await this.$auth.loginWith('local', { data: this.form })
