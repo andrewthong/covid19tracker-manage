@@ -37,7 +37,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
-    '@nuxtjs/auth',
+    '@nuxtjs/auth-next',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
   ],
@@ -53,14 +53,14 @@ export default {
       local: {
         scheme: 'refresh',
         token: {
-          property: 'access_token',
-          maxAge: 1800,
+          property: 'token',
+          maxAge: 3600,
           // type: 'Bearer'
         },
         refreshToken: {
           property: 'refresh_token',
           data: 'refresh_token',
-          maxAge: 60 * 60 * 24 * 30
+          maxAge: 60 * 60 * 24 * 10
         },
         user: {
           property: 'user',
@@ -68,7 +68,7 @@ export default {
         },
         endpoints: {
           login: { url: 'manage/login', method: 'post' },
-          refresh: { url: 'manage/refresh', method: 'post' },
+          refresh: { url: 'manage/refresh-token', method: 'post' },
           logout: { url: 'manage/logout', method: 'post' },
           user: false,
         }

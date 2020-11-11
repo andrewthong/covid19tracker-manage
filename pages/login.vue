@@ -57,10 +57,7 @@ export default {
       try {
         let response = await this.$auth.loginWith('local', { data: this.form })
         console.log(response)
-        // if (response.data.token) {
-        //   this.$auth.setUserToken(response.data.token, refreshToken);
-        //   this.$router.push({name: 'reporting'});
-        // }
+        this.$auth.setUser( response.data.user );
       } catch (err) {
         console.log(err)
       }

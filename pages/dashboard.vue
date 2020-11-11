@@ -10,7 +10,7 @@
     middleware: 'auth',
     methods: {
       test() {
-        console.log(this.$auth)
+        console.log( this.$auth.refreshTokens() )
       },
     },
   }

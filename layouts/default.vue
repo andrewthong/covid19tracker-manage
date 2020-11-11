@@ -9,11 +9,18 @@
         <b-collapse id="nav-collapse" is-nav>
 
           <b-navbar-nav v-if="isLoggedIn" class="pl-3">
+            <b-nav-item :to="{name: 'dashboard'}">Dashboard</b-nav-item>
             <b-nav-item :to="{name: 'reporting'}">Reporting</b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
-            <b-nav-item href="#" right @click="logout"  v-if="isLoggedIn">Logout</b-nav-item>
+            <b-dropdown v-if="isLoggedIn"
+                        v-bind:text="userName"
+                        variant="dark"
+                        size="sm"
+                        right>
+              <b-dropdown-item href="#" @click="logout" >Logout</b-dropdown-item>
+            </b-dropdown>
             <b-nav-item :to="{name: 'login'}" v-else>Login</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
@@ -28,7 +35,10 @@
     computed: {
       isLoggedIn() {
         return this.$auth.loggedIn;
-      }
+      },
+      userName() {
+        return this.$auth.user.name;
+      },
     },
 
     methods: {

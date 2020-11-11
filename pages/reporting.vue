@@ -150,7 +150,7 @@
     },
     methods: {
       loadOptions() {
-        this.$axios.$get('provinces')
+        this.$axios.$get('provinces', {'params': {'geo_only': 1}})
           .then(response => {
             console.log(response);
             this.provinces = response;
