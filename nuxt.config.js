@@ -64,22 +64,23 @@ export default {
         },
         user: {
           property: 'user',
-          // autoFetch: true
+          autoFetch: true
         },
         endpoints: {
           login: { url: 'manage/login', method: 'post' },
           refresh: { url: 'manage/refresh-token', method: 'post' },
           logout: { url: 'manage/logout', method: 'post' },
-          user: false,
+          user: { url: 'manage/user', method: 'get' },
         }
       },
-    }
+    },
+    plugins: []
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     baseURL: 'http://192.168.10.10/',
-    withCredentials: true, // this says that in the request the httponly cookie should be sent
+    withCredentials: true,
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)

@@ -81,7 +81,7 @@
               <small>{{ region.hr_uid }}</small>
             </b-th>
             <b-th v-for="(attr, key) in attrs" v-bind:key="key">
-              <b-input type="number" size="sm" min="0" v-model="hr_reports[region.hr_uid][key]" />
+              <b-input type="number" size="sm" min="0" v-model="hrReports[region.hr_uid][key]" />
             </b-th>
           </b-tr>
         </b-tbody>
@@ -122,6 +122,7 @@
           status: null,
         },
         report: {},
+        hrReports: {},
         reportLoaded: false,
         statusOptions: [
           '',
@@ -134,12 +135,9 @@
           min: new Date('2020-01-01'),
           max: new Date(),
         },
-        hr_reports: {},
       }
     },
     created() {
-      // this.$auth.refreshTokens()
-      //
       this.loadOptions();
       this.form.date = new Date().toISOString().split('T')[0];
       // zeroed standard attributes
@@ -149,16 +147,23 @@
       this.resetReport();
     },
     methods: {
+
+      /**
+       * loads initial options
+       */
       loadOptions() {
         this.$axios.$get('provinces', {'params': {'geo_only': 1}})
           .then(response => {
-            console.log(response);
             this.provinces = response;
           })
           .catch(errors => {
             console.dir(errors);
           });
       },
+
+      /**
+       * selects a province
+       */
       setProvince(index) {
         // assign province
         this.selectedProvince = index;
@@ -166,8 +171,12 @@
         // preloading some data... province data status
         this.form.status = this.provinces[index].data_status;
       },
+
+      /**
+       * loads report based on selected province and date
+       */
       loadReport() {
-        // load data...
+        // fetch data from API
         this.$axios.$get(`manage/report/${this.form.province}`, {'params': { 'date': this.form.date }})
           .then(response => {
             // load province data
@@ -178,22 +187,22 @@
                 this.report[attr] = response.report[attr]
               }
             });
-            // setup regions
+            // load regions
             this.regions = response.regions;
+            // create v-model for each region
             this.regions.forEach((r, index) => {
-              // create v-model
-              this.hr_reports[r.hr_uid] = JSON.parse(JSON.stringify(this.baseAttrs));
+              this.hrReports[r.hr_uid] = JSON.parse(JSON.stringify(this.baseAttrs));
               // store index reference
               this.regionHash[r.hr_uid] = index;
             });
-            // load region data
+            // prefill any existing region data
             if( Array.isArray(response.hr_reports) ) {
               let keys = Object.keys(this.baseAttrs);
               response.hr_reports.forEach(r => {
                 keys.forEach(attr => {
-                  if( r[attr] !== undefined && this.hr_reports[r.hr_uid] !== undefined ) {
+                  if( r[attr] !== undefined && this.hrReports[r.hr_uid] !== undefined ) {
                     console.log(r[attr]);
-                    this.hr_reports[r.hr_uid][attr] = r[attr];
+                    this.hrReports[r.hr_uid][attr] = r[attr];
                   }
                 });
               });
@@ -205,9 +214,34 @@
             console.dir(errors);
           });
       },
+
+      /**
+       * saves current report (post)
+       */
+      saveReport() {
+        // prepare payload, start with basic values
+        const payload = JSON.parse(JSON.stringify( this.form ));
+        // attach province report
+        payload.report = JSON.parse(JSON.stringify( this.report ));
+        // attach health region reports
+        payload.hr_report = JSON.parse(JSON.stringify( this.hrReports ));
+        // post
+        this.$axios.$post( `manage/report`, payload )
+          .then(response => {
+            console.log(response);
+          });
+      },
+
+      /**
+       * checks if code matches selected province
+       */
       isSelected(code) {
         return this.form.province === code ? 'primary' : 'outline-secondary';
       },
+
+      /**
+       * helper to reset the report form (changing province/date)
+       */
       resetReport() {
         this.report = JSON.parse(JSON.stringify(this.baseAttrs));
         this.form.status = null;

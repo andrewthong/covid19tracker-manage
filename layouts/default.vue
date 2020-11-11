@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-3">
-      <b-navbar toggleable="lg" type="dark" variant="dark">
+      <b-navbar toggleable="lg" type="dark" variant="primary">
         <b-link :to="{name: 'index'}" class="text-light font-weight-bold">C19T Manage v2</b-link>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -16,10 +16,10 @@
           <b-navbar-nav class="ml-auto">
             <b-dropdown v-if="isLoggedIn"
                         v-bind:text="userName"
-                        variant="dark"
+                        variant="light"
                         size="sm"
                         right>
-              <b-dropdown-item href="#" @click="logout" >Logout</b-dropdown-item>
+              <b-dropdown-item href="#" @click="logout">Logout</b-dropdown-item>
             </b-dropdown>
             <b-nav-item :to="{name: 'login'}" v-else>Login</b-nav-item>
           </b-navbar-nav>
@@ -37,7 +37,7 @@
         return this.$auth.loggedIn;
       },
       userName() {
-        return this.$auth.user.name;
+        return this.$auth.user.name ? this.$auth.user.name : 'User';
       },
     },
 
