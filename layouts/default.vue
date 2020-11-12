@@ -27,7 +27,6 @@
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item href="#" @click="logout">Logout</b-dropdown-item>
             </b-nav-item-dropdown>
-            <b-nav-item :to="{name: 'login'}" v-else>Login</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>

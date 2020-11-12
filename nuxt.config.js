@@ -56,9 +56,9 @@ export default {
   auth: {
     redirect: {
       login: '/login',
-      logout: '/',
+      logout: '/login?logout=1',
       callback: '/login',
-      home: '/dashboard'
+      home: '/'
     },
     strategies: {
       local: {
