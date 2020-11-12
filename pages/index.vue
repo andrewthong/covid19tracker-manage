@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <p class="text-muted">Maybe a dashboard goes here...</p>
+    <p class="text-muted">Maybe a dashboard goes here later...</p>
   </div>
 </template>
 
