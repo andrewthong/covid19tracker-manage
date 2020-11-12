@@ -1,4 +1,12 @@
 export default {
+
+  publicRuntimeConfig: {
+    appEnv: process.env.APP_ENV || `local`,
+  },
+
+  privateRuntimeConfig: {
+  },
+
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
 
@@ -7,11 +15,12 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'c19t-manager',
+    title: `[${process.env.APP_ENV}] COVID19Tracker.ca Manage Utility`,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { name: 'robots', content: 'noindex' },
+      { name: 'description', content: '' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -36,7 +45,9 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     // https://go.nuxtjs.dev/bootstrap
-    'bootstrap-vue/nuxt',
+    ['bootstrap-vue/nuxt', {
+      icons: true,
+    }],
     '@nuxtjs/auth-next',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
@@ -79,7 +90,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: 'http://192.168.10.10/',
+    baseURL: process.env.API_BASE_URL,
     withCredentials: true,
   },
 
