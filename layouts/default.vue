@@ -21,7 +21,7 @@
                                  menu-class="user-menu"
                                  right>
               <template #button-content>
-                <span><b-icon icon="person-circle" /> {{ userName }}</span>
+                <span><iconPersonCircle /> {{ userName }}</span>
               </template>
               <b-dropdown-item :to="{name: 'debug'}">Debug</b-dropdown-item>
               <b-dropdown-divider></b-dropdown-divider>
@@ -44,7 +44,12 @@
 </template>
 
 <script>
+  import iconPersonCircle from '~/components/icons/person-circle.vue';
+
   export default {
+    components: {
+      iconPersonCircle
+    },
     computed: {
       isLoggedIn() {
         return this.$auth.loggedIn;

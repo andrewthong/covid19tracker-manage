@@ -91,7 +91,7 @@
 
       <b-button v-on:click="saveReport()"
                 v-bind:disabled="saving"
-                variant="primary"><b-icon icon="file-arrow-up-fill"></b-icon> Save Report</b-button>
+                variant="primary">Save Report</b-button>
 
       <b-spinner label="Saving report" v-if="saving"></b-spinner>
 

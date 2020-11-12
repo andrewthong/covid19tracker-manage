@@ -46,7 +46,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     ['bootstrap-vue/nuxt', {
-      icons: true,
+      icons: false,
     }],
     '@nuxtjs/auth-next',
     // https://go.nuxtjs.dev/axios
@@ -96,5 +96,8 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+    babel: {
+      compact: true
+    }
   }
 }
