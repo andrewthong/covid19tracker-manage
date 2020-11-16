@@ -3,40 +3,26 @@
 
     <h1 class="h2 mb-4">Add User</h1>
 
-    <b-form @submit="addUser()">
-
-      <b-form-group label="Name" label-for="input-name">
-        <b-form-input id="input-name" v-model="user.name" trim></b-form-input>
-      </b-form-group>
-
-      <b-form-group label="Email" label-for="input-email">
-        <b-form-input id="input-email" type="email" v-model="user.email" trim></b-form-input>
-      </b-form-group>
-
-    </b-form>
+    <userForm/>
 
   </div>
 </template>
 
 <script>
+import userForm from '~/components/user-form.vue';
+
 export default {
   middleware: 'auth',
+  components: {
+    userForm,
+  },
   data() {
     return {
-      user: {}
     }
   },
   created() {
-    
   },
-  methods: {
-    addUser() {
-      this.$axios.$get(`manage/users`)
-        .then(response => {
-          this.users = response;
-        });
-    },
-  },
+  methods: {}
 }
 </script>
 
