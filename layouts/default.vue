@@ -23,7 +23,7 @@
               <template #button-content>
                 <span><iconPersonCircle /> {{ userName }}</span>
               </template>
-              <b-dropdown-item :to="{name: 'users'}">Users</b-dropdown-item>
+              <b-dropdown-item :to="{name: 'users'}" v-if="isAdmin">Users</b-dropdown-item>
               <b-dropdown-item :to="{name: 'debug'}">Debug</b-dropdown-item>
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item href="#" @click="logout">Logout</b-dropdown-item>
@@ -53,6 +53,9 @@
     computed: {
       isLoggedIn() {
         return this.$auth.loggedIn;
+      },
+      isAdmin() {
+        return this.$auth.user.role === 'admin' ? true : false;
       },
       userName() {
         return this.$auth.user.name ? this.$auth.user.name : 'User';

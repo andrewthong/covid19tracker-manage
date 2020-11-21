@@ -267,6 +267,13 @@
             this.alert.show = true;
             // done
             this.saving = false;
+          })
+          .catch(error => {
+            this.alert.variant = 'danger';
+            this.alert.show = true;
+            this.alert.title = '';
+            this.alert.description = error.response.data.message;
+            this.saving = false;
           });
       },
 
