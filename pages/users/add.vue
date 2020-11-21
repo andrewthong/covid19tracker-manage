@@ -12,7 +12,10 @@
 import userForm from '~/components/user-form.vue';
 
 export default {
-  middleware: 'auth',
+  middleware: [
+    'auth',
+    'admin',
+  ],
   components: {
     userForm,
   },

@@ -165,6 +165,22 @@ export default {
     },
 
     editUser() {
+      let payload = this.form;
+      payload.provinces = this.selectedProvinces;
+      this.$axios.$post( `manage/users/${this.user.id}`, payload )
+        .then(response => {
+          // redirect back to users
+          this.$router.push({
+              path: '/users',
+              params: { userId: this.user.id }
+          });
+        }).catch(error => {
+          const response = error.response;
+          this.alert.variant = 'danger';
+          this.alert.show = true;
+          this.alert.description = response.data.message;
+          this.saving = false;
+        });
     },
 
   },

@@ -170,7 +170,12 @@
       loadOptions() {
         this.$axios.$get('provinces', {'params': {'geo_only': 1}})
           .then(response => {
-            this.provinces = response;
+            if( this.$auth.user.role !== 'admin' ) {
+              let whitelist = this.$auth.user.provinces.map( p => p.code );
+              this.provinces = response.filter( r => whitelist.includes(r.code ) );
+            } else {
+              this.provinces = response;
+            }
           })
           .catch(errors => {
             console.dir(errors);

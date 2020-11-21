@@ -12,7 +12,7 @@
           <th>&nbsp;</th>
           <th>Name</th>
           <th>Email</th>
-          <th>Provinces</th>
+          <th>Authorized Provinces</th>
         </tr>
       </thead>
       <tbody>
@@ -47,7 +47,10 @@ export default {
   components: {
     iconPencilFill
   },
-  middleware: 'auth',
+  middleware: [
+    'auth',
+    'admin',
+  ],
   data() {
     return {
       users: []
