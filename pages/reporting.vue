@@ -13,7 +13,8 @@
               class="mr-1">
           <b-button v-on:click="setProvince(index)"
                     v-bind:variant="isSelected(province.code)"
-                    v-bind:disabled="reportLoaded">
+                    v-bind:disabled="reportLoaded"
+                    v-bind:title="province.name">
           {{ province.code }}</b-button></span>
       </b-form-group>
 
@@ -47,7 +48,7 @@
         <b-thead head-variant="dark">
           <b-tr>
             <b-th>&nbsp;</b-th>
-            <b-th>Current Status</b-th>
+            <b-th>Data Status</b-th>
             <b-th v-for="(attr, index) in reportAttrs" v-bind:key="index">{{ attr }}</b-th>
           </b-tr>
         </b-thead>
@@ -56,6 +57,7 @@
             <b-th>{{ provinces[selectedProvince].name }}</b-th>
             <b-th>
               <b-form-select v-model="form.status" :options="statusOptions" size="sm"></b-form-select>
+              <em><small>*current</small></em>
             </b-th>
             <b-th v-for="(attr, key) in reportAttrs" v-bind:key="key">
               <b-input type="number" size="sm" min="0" v-model="report[key]" />
@@ -64,7 +66,7 @@
         </b-tbody>
       </b-table-simple>
 
-      <b-spinner label="Spinning" v-if="loading"></b-spinner>
+      <b-spinner label="Loading report" v-if="loading"></b-spinner>
 
       <h5>Health Regions</h5>
       <b-table-simple striped bordered v-if="regions && !loading" class="report-table">
@@ -88,7 +90,14 @@
       </b-table-simple>
 
       <b-button v-on:click="saveReport()"
+                v-bind:disabled="saving"
                 variant="primary">Save Report</b-button>
+
+      <b-spinner label="Saving report" v-if="saving"></b-spinner>
+
+      <b-alert v-model="alert.show" v-bind:variant="alert.variant || 'info'" dismissible class="mt-3">
+        <strong>{{ alert.title }}</strong> {{ alert.description }}
+      </b-alert>
 
     </b-card>
 
@@ -135,11 +144,18 @@
           min: new Date('2020-01-01'),
           max: new Date(),
         },
+        saving: false,
+        alert: {
+          show: false,
+          variant: null,
+          title: '',
+          description: '',
+        },
       }
     },
     created() {
       this.loadOptions();
-      this.form.date = new Date().toISOString().split('T')[0];
+      this.form.date = this.currentDate();
       // zeroed standard attributes
       this.baseAttrs = JSON.parse(JSON.stringify(this.attrs));
       Object.keys(this.baseAttrs).forEach(v => this.baseAttrs[v] = null);
@@ -154,11 +170,24 @@
       loadOptions() {
         this.$axios.$get('provinces', {'params': {'geo_only': 1}})
           .then(response => {
-            this.provinces = response;
+            if( this.$auth.user.role !== 'admin' ) {
+              let whitelist = this.$auth.user.provinces.map( p => p.code );
+              this.provinces = response.filter( r => whitelist.includes(r.code ) );
+            } else {
+              this.provinces = response;
+            }
           })
           .catch(errors => {
             console.dir(errors);
           });
+      },
+
+      /**
+       * helper to pull user Y-m-d
+       */
+      currentDate() {
+        let d = new Date();
+        return new Date(d.getTime() - (d.getTimezoneOffset() * 60000 )).toISOString().split("T")[0];
       },
 
       /**
@@ -198,10 +227,11 @@
             // prefill any existing region data
             if( Array.isArray(response.hr_reports) ) {
               let keys = Object.keys(this.baseAttrs);
+              // loop through each returned report
               response.hr_reports.forEach(r => {
+                // look for attributes we want
                 keys.forEach(attr => {
                   if( r[attr] !== undefined && this.hrReports[r.hr_uid] !== undefined ) {
-                    console.log(r[attr]);
                     this.hrReports[r.hr_uid][attr] = r[attr];
                   }
                 });
@@ -219,6 +249,8 @@
        * saves current report (post)
        */
       saveReport() {
+        this.saving = true;
+        this.alert.show = false;
         // prepare payload, start with basic values
         const payload = JSON.parse(JSON.stringify( this.form ));
         // attach province report
@@ -229,6 +261,19 @@
         this.$axios.$post( `manage/report`, payload )
           .then(response => {
             console.log(response);
+            this.alert.variant = 'success';
+            this.alert.title = response.message;
+            this.alert.description = `(${response.province}, ${response.date})`;
+            this.alert.show = true;
+            // done
+            this.saving = false;
+          })
+          .catch(error => {
+            this.alert.variant = 'danger';
+            this.alert.show = true;
+            this.alert.title = '';
+            this.alert.description = error.response.data.message;
+            this.saving = false;
           });
       },
 
