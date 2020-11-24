@@ -260,7 +260,6 @@
         // post
         this.$axios.$post( `manage/report`, payload )
           .then(response => {
-            console.log(response);
             this.alert.variant = 'success';
             this.alert.title = response.message;
             this.alert.description = `(${response.province}, ${response.date})`;

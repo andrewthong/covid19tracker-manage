@@ -54,7 +54,6 @@ export default {
         .then(response => {
           this.user = response.data;
           this.loading = false;
-          console.log(this.user);
         })
         .catch(error => {
           const response = error.response;
