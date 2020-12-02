@@ -288,6 +288,7 @@
        */
       resetReport() {
         this.report = JSON.parse(JSON.stringify(this.baseAttrs));
+        this.hrReports = {};
         this.form.status = null;
         this.reportLoaded = false;
         this.regionHash = {};
