@@ -116,6 +116,7 @@
           'hospitalizations': 'Hospitalizations',
           'criticals': 'Criticals',
           'recoveries': 'Recoveries',
+          'vaccinations': 'Vaccinations',
         },
         // province-level reports don't use this
         provinceExclude: ['cases', 'fatalities'],
@@ -306,7 +307,7 @@
 <style>
 
   .report-table th:first-child {
-    width: 20%;
+    width: 18%;
     text-align: right;
   }
 
