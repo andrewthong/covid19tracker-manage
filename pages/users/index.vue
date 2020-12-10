@@ -72,13 +72,7 @@ export default {
     },
 
     isAdmin(user) {
-      if( user.roles ) {
-        let f = user.roles.filter( role => role.name === 'admin' );
-        console.log(f);
-        if( f.length === 1 )
-          return true; 
-      }
-      return false;
+      return user.role === 'admin' ? true : false;
     },
 
   },

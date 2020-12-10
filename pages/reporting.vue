@@ -116,6 +116,7 @@
           'hospitalizations': 'Hospitalizations',
           'criticals': 'Criticals',
           'recoveries': 'Recoveries',
+          'vaccinations': 'Vaccinations',
         },
         // province-level reports don't use this
         provinceExclude: ['cases', 'fatalities'],
@@ -260,7 +261,6 @@
         // post
         this.$axios.$post( `manage/report`, payload )
           .then(response => {
-            console.log(response);
             this.alert.variant = 'success';
             this.alert.title = response.message;
             this.alert.description = `(${response.province}, ${response.date})`;
@@ -289,6 +289,7 @@
        */
       resetReport() {
         this.report = JSON.parse(JSON.stringify(this.baseAttrs));
+        this.hrReports = {};
         this.form.status = null;
         this.reportLoaded = false;
         this.regionHash = {};
@@ -306,7 +307,7 @@
 <style>
 
   .report-table th:first-child {
-    width: 20%;
+    width: 18%;
     text-align: right;
   }
 

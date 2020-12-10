@@ -6,8 +6,6 @@
     <b-button variant="warning" v-on:click="refreshTokens">Refresh Tokens</b-button>
     <b-button variant="info" v-on:click="lookupUser">Lookup User</b-button>
     <b-button variant="info" v-on:click="dumpAuth">Dump Auth</b-button>
-    <h3>*USER TESTING*</h3>
-    <b-button variant="info" v-on:click="getUsers">Get Users</b-button>
   </div>
 </template>
 
@@ -31,12 +29,6 @@
       },
       lookupUser() {
         this.$axios.$get(`manage/user`)
-          .then(response => {
-            console.log(response);
-          });
-      },
-      getUsers() {
-        this.$axios.$get(`manage/users`)
           .then(response => {
             console.log(response);
           });

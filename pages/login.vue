@@ -81,11 +81,9 @@ export default {
       this.loading = true;
       try {
         let response = await this.$auth.loginWith('local', { data: this.form })
-        console.log(response)
         this.$auth.setUser( response.data.user );
         this.$auth.setUserToken( response.data.token, response.data.refresh_token );
       } catch (err) {
-        console.log(err);
         this.alert.show = true;
         this.alert.description = 'Invalid email or password';
         this.loading = false;
