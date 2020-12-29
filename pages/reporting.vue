@@ -73,7 +73,7 @@
         <b-thead head-variant="dark">
           <b-tr>
             <b-th>&nbsp;</b-th>
-            <b-th v-for="(attr, index) in attrs" v-bind:key="index">{{ attr }}</b-th>
+            <b-th v-for="(attr, index) in hrReportAttrs" v-bind:key="index">{{ attr }}</b-th>
           </b-tr>
         </b-thead>
         <b-tbody>
@@ -82,7 +82,7 @@
               {{ region.engname }}<br/>
               <small>{{ region.hr_uid }}</small>
             </b-th>
-            <b-th v-for="(attr, key) in attrs" v-bind:key="key">
+            <b-th v-for="(attr, key) in hrReportAttrs" v-bind:key="key">
               <b-input type="number" size="sm" min="0" v-model="hrReports[region.hr_uid][key]" />
             </b-th>
           </b-tr>
@@ -117,9 +117,8 @@
           'criticals': 'Criticals',
           'recoveries': 'Recoveries',
           'vaccinations': 'Vaccinations',
+          'vaccines_distributed': 'Vaccines Dist.',
         },
-        // province-level reports don't use this
-        provinceExclude: ['cases', 'fatalities'],
         baseAttrs: null,
         provinces: [],
         regions: [],
@@ -221,13 +220,13 @@
             this.regions = response.regions;
             // create v-model for each region
             this.regions.forEach((r, index) => {
-              this.hrReports[r.hr_uid] = JSON.parse(JSON.stringify(this.baseAttrs));
+              this.hrReports[r.hr_uid] = JSON.parse(JSON.stringify(this.hrReportAttrs));
               // store index reference
               this.regionHash[r.hr_uid] = index;
             });
             // prefill any existing region data
             if( Array.isArray(response.hr_reports) ) {
-              let keys = Object.keys(this.baseAttrs);
+              let keys = Object.keys(this.hrReportAttrs);
               // loop through each returned report
               response.hr_reports.forEach(r => {
                 // look for attributes we want
@@ -298,6 +297,10 @@
     computed: {
       reportAttrs() {
         let { cases, fatalities, ...attrs } = this.attrs;
+        return attrs;
+      },
+      hrReportAttrs() {
+        let { vaccines_distributed, ...attrs } = this.attrs;
         return attrs;
       },
     },
