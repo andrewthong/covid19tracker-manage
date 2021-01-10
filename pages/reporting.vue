@@ -219,10 +219,10 @@
             // load regions
             this.regions = response.regions;
             // default attributes (null)
-            let defaultHrAttrs = Object.keys(this.hrReportAttrs)
-                                   .reduce((a, k)=> (a[k] = null,a),{});
             // create v-model for each region
             this.regions.forEach((r, index) => {
+              let defaultHrAttrs = Object.keys(JSON.parse(JSON.stringify(this.hrReportAttrs)))
+                                   .reduce((a, k)=> (a[k] = null,a),{});
               this.hrReports[r.hr_uid] = defaultHrAttrs;
               // store index reference
               this.regionHash[r.hr_uid] = index;
