@@ -25,6 +25,7 @@
               </template>
               <b-dropdown-item :to="{name: 'users'}" v-if="isAdmin">Users</b-dropdown-item>
               <b-dropdown-item :to="{name: 'cache'}" v-if="isAdmin">Cache</b-dropdown-item>
+              <b-dropdown-item :to="{name: 'processing'}" v-if="isAdmin">Processing</b-dropdown-item>
               <b-dropdown-item :to="{name: 'debug'}">Debug</b-dropdown-item>
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item href="#" @click="logout">Logout</b-dropdown-item>
