@@ -13,7 +13,7 @@
           <b-tr>
             <b-th>ID</b-th>
             <b-th>Province</b-th>
-            <b-th>Date</b-th>
+            <b-th>Report Date</b-th>
             <b-th>Created at</b-th>
             <b-th>Updated at</b-th>
           </b-tr>

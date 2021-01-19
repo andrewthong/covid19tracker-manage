@@ -175,7 +175,7 @@
        * loads initial options
        */
       loadOptions() {
-        this.$axios.$get('provinces', {'params': {'geo_only': 1}})
+        this.$axios.$get('provinces')
           .then(response => {
             if( this.$auth.user.role !== 'admin' ) {
               let whitelist = this.$auth.user.provinces.map( p => p.code );
