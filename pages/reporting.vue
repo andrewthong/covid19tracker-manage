@@ -5,7 +5,7 @@
 
     <b-card class="mb-4">
 
-      <h2 class="h4">1. Province and Date</h2>
+      <h2 class="h3">1. Province and Date</h2>
     
       <b-form-group label="Province" class="province-select">
         <span v-for="(province, index) in provinces"
@@ -34,31 +34,36 @@
 
     <b-card v-if="reportLoaded">
 
-      <h2 class="h6">
-        <span class="h4">2. Reports</span>
+      <div class="h5">
         <b-badge v-on:click="resetReport()"
                  v-if="reportLoaded"
-                 class="align-top"
+                 class="align-top fs-6"
                  href="#"
                  variant="warning">Select a different Province or Date</b-badge>
+      </div>
+
+      <h2 class="my-4">
+        <span class="h3">2. Reports</span>
       </h2>
 
-      <h5 class="mt-4">Province</h5>
+      <h3 class="h4 mb-4">Province: <span class="bg-light">{{ provinces[selectedProvince].name }}</span></h3>
+
+      <div class="row mb-4">
+        <div class="col col-sm-6 col-md-4">
+          <label class="form-label">Data Status</label>
+          <b-form-select v-model="form.status" :options="statusOptions" size="sm"></b-form-select>
+          <em><small>*current</small></em>
+        </div>
+      </div>
+
       <b-table-simple striped bordered class="report-table">
         <b-thead head-variant="dark">
           <b-tr>
-            <b-th>&nbsp;</b-th>
-            <b-th>Data Status</b-th>
-            <b-th v-for="(attr, index) in reportAttrs" v-bind:key="index">{{ attr }}</b-th>
+            <b-th v-for="(attr, index) in reportAttrs" v-bind:key="index"><span class="thh">{{ attr }}</span></b-th>
           </b-tr>
         </b-thead>
         <b-tbody>
           <b-tr>
-            <b-th>{{ provinces[selectedProvince].name }}</b-th>
-            <b-th>
-              <b-form-select v-model="form.status" :options="statusOptions" size="sm"></b-form-select>
-              <em><small>*current</small></em>
-            </b-th>
             <b-th v-for="(attr, key) in reportAttrs" v-bind:key="key">
               <b-input type="number" size="sm" min="0" v-model="report[key]" />
             </b-th>
@@ -68,8 +73,9 @@
 
       <b-spinner label="Loading report" v-if="loading"></b-spinner>
 
-      <h5>Health Regions</h5>
-      <b-table-simple striped bordered v-if="regions && !loading" class="report-table">
+      <h3 class="h4">Health Regions</h3>
+
+      <b-table-simple striped bordered v-if="regions && !loading" class="report-table report-table-th">
         <b-thead head-variant="dark">
           <b-tr>
             <b-th>&nbsp;</b-th>
@@ -118,6 +124,7 @@
           'recoveries': 'Recoveries',
           'vaccinations': 'Vaccinations',
           'vaccines_distributed': 'Vaccines Dist.',
+          'vaccinated': 'Vaccinated',
         },
         baseAttrs: null,
         provinces: [],
@@ -168,7 +175,7 @@
        * loads initial options
        */
       loadOptions() {
-        this.$axios.$get('provinces', {'params': {'geo_only': 1}})
+        this.$axios.$get('provinces')
           .then(response => {
             if( this.$auth.user.role !== 'admin' ) {
               let whitelist = this.$auth.user.provinces.map( p => p.code );
@@ -303,7 +310,7 @@
         return attrs;
       },
       hrReportAttrs() {
-        let { vaccines_distributed, ...attrs } = this.attrs;
+        let { vaccines_distributed, vaccinated, ...attrs } = this.attrs;
         return attrs;
       },
     },
@@ -312,7 +319,7 @@
 
 <style>
 
-  .report-table th:first-child {
+  .report-table-th th:first-child {
     width: 18%;
     text-align: right;
   }

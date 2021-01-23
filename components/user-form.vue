@@ -101,7 +101,7 @@ export default {
      * loads initial options
      */
     loadProvinces() {
-      this.$axios.$get('provinces', {'params': {'geo_only': 1}})
+      this.$axios.$get('provinces')
         .then(response => {
           this.provinces = response;
           // fill selection for edit mode
