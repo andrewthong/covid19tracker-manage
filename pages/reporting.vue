@@ -306,7 +306,7 @@
     },
     computed: {
       reportAttrs() {
-        let { cases, fatalities, ...attrs } = this.attrs;
+        let { ...attrs } = this.attrs;
         return attrs;
       },
       hrReportAttrs() {
