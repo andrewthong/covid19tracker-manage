@@ -204,8 +204,6 @@
         // assign province
         this.selectedProvince = index;
         this.form.province = this.provinces[index].code;
-        // preloading some data... province data status
-        this.form.status = this.provinces[index].data_status;
       },
 
       /**
@@ -215,7 +213,9 @@
         // fetch data from API
         this.$axios.$get(`manage/report/${this.form.province}`, {'params': { 'date': this.form.date }})
           .then(response => {
-            // load province data
+            // update data status
+            this.form.status = response.province.data_status;
+            // load province report data
             Object.keys(this.reportAttrs).forEach(attr => {
               // loop through each [expected] key
               if( response.report[attr] !== undefined ) {
@@ -310,7 +310,7 @@
         return attrs;
       },
       hrReportAttrs() {
-        let { vaccines_distributed, vaccinated, ...attrs } = this.attrs;
+        let { vaccines_distributed, ...attrs } = this.attrs;
         return attrs;
       },
     },
