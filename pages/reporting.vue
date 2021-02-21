@@ -1,5 +1,5 @@
 <template>
-  <b-container class="pt-3">
+  <b-container fluid class="pt-3">
 
     <h1 class="h2 mb-4">Reporting</h1>
 
@@ -56,7 +56,7 @@
         </div>
       </div>
 
-      <b-table-simple striped bordered class="report-table">
+      <b-table-simple fixed striped bordered class="report-table">
         <b-thead head-variant="dark">
           <b-tr>
             <b-th v-for="(attr, index) in reportAttrs" v-bind:key="index"><span class="thh">{{ attr }}</span></b-th>
@@ -75,7 +75,7 @@
 
       <h3 class="h4">Health Regions</h3>
 
-      <b-table-simple striped bordered v-if="regions && !loading" class="report-table report-table-th">
+      <b-table-simple fixed striped bordered v-if="regions && !loading" class="report-table report-table-th">
         <b-thead head-variant="dark">
           <b-tr>
             <b-th>&nbsp;</b-th>
@@ -320,7 +320,6 @@
 <style>
 
   .report-table-th th:first-child {
-    width: 18%;
     text-align: right;
   }
 
@@ -330,6 +329,16 @@
 
   .province-select .btn-primary {
     text-decoration: underline;
+  }
+
+  /* hide increment arrows */
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
   }
 
 </style>
