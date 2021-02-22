@@ -25,10 +25,14 @@
                            v-bind:disabled="reportLoaded"></b-form-datepicker>
       </b-form-group>
 
-      <b-button v-on:click="loadReport()"
-                v-if="! reportLoaded"
-                v-bind:disabled="selectedProvince === null"
-                variant="primary">Load Report</b-button>
+      <div class="d-flex align-items-center">
+        <b-button v-on:click="loadReport()"
+                  v-if="! reportLoaded"
+                  v-bind:disabled="selectedProvince === null"
+                  variant="primary">Load Report</b-button>
+
+        <b-spinner label="Loading report" class="ml-2" v-if="loading"></b-spinner>
+      </div>
 
     </b-card>
 
@@ -70,8 +74,6 @@
           </b-tr>
         </b-tbody>
       </b-table-simple>
-
-      <b-spinner label="Loading report" v-if="loading"></b-spinner>
 
       <h3 class="h4">Health Regions</h3>
 
@@ -210,6 +212,7 @@
        * loads report based on selected province and date
        */
       loadReport() {
+        this.loading = true;
         // fetch data from API
         this.$axios.$get(`manage/report/${this.form.province}`, {'params': { 'date': this.form.date }})
           .then(response => {
@@ -248,6 +251,7 @@
               });
             }
             // complete
+            this.loading = false;
             this.reportLoaded = true;
           })
           .catch(errors => {
