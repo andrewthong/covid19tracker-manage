@@ -65,7 +65,7 @@
         <b-tbody>
           <b-tr>
             <b-th v-for="(attr, key) in reportAttrs" v-bind:key="key">
-              <b-input type="number" size="sm" min="0" v-model="report[key]" />
+              <b-input type="number" size="sm" min="0" v-bind:title="attr" v-model="report[key]" />
             </b-th>
           </b-tr>
         </b-tbody>
@@ -89,7 +89,7 @@
               <small>{{ region.hr_uid }}</small>
             </b-th>
             <b-th v-for="(attr, key) in hrReportAttrs" v-bind:key="key">
-              <b-input type="number" size="sm" min="0" v-model="hrReports[region.hr_uid][key]" />
+              <b-input type="number" size="sm" min="0" v-bind:title="attr" v-model="hrReports[region.hr_uid][key]" />
             </b-th>
           </b-tr>
         </b-tbody>
