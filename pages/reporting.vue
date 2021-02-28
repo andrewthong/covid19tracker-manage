@@ -77,17 +77,17 @@
 
       <h3 class="h4">Health Regions</h3>
 
-      <b-table-simple fixed striped bordered v-if="regions && !loading" class="report-table report-table-th">
+      <b-table-simple fixed striped bordered v-if="regions && !loading" class="report-table report-table-th" v-bind:class="tableCompact ? 'compact' : ''">
         <b-thead head-variant="dark">
           <b-tr>
-            <b-th>&nbsp;</b-th>
+            <b-th><b-button size="sm" v-on:click="toggleCompact">{{ tableCompact ? '&raquo;' : '&laquo;' }}</b-button></b-th>
             <b-th v-for="(attr, index) in hrReportAttrs" v-bind:key="index">{{ attr }}</b-th>
           </b-tr>
         </b-thead>
         <b-tbody>
           <b-tr v-for="region in regions" v-bind:key="region.hr_uid">
             <b-th>
-              {{ region.engname }}<br/>
+              <p>{{ region.engname }}</p>
               <small>{{ region.hr_uid }}</small>
             </b-th>
             <b-th v-for="(attr, key) in hrReportAttrs" v-bind:key="key">
@@ -142,6 +142,7 @@
         report: {},
         hrReports: {},
         reportLoaded: false,
+        tableCompact: false,
         statusOptions: [
           '',
           'Waiting for report',
@@ -307,6 +308,13 @@
         this.reportLoaded = false;
         this.regionHash = {};
       },
+
+      /**
+       * constricts/expands first column in hr_reports for smaller viewports
+       */
+      toggleCompact() {
+        this.tableCompact = !this.tableCompact;
+      },
     },
     computed: {
       reportAttrs() {
@@ -325,6 +333,20 @@
 
   .report-table-th th:first-child {
     text-align: right;
+  }
+
+  .report-table-th th:first-child > p {
+    font-size: 0.875rem;
+    line-height: 1.25;
+    margin-bottom: 0;
+  }
+  
+  .report-table-th.compact th:first-child {
+    width: 5ch;
+  }
+
+  .report-table-th.compact th:first-child > p {
+    display: none;
   }
 
   .province-select .btn {
