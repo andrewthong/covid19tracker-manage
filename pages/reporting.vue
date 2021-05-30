@@ -97,6 +97,24 @@
         </b-tbody>
       </b-table-simple>
 
+      <div v-if="hasVaccineReport">
+        <h3 class="h4">Additional Vaccine Reports</h3>
+        <b-table-simple fixed striped bordered class="report-v2-table">
+          <b-thead head-variant="dark">
+            <b-tr>
+              <b-th v-for="(value, attr) in report_v2.vaccine_reports.data" :key="attr" class="text-capitalize">{{ attr | formatAttr }}</b-th>
+            </b-tr>
+          </b-thead>
+          <b-tbody>
+            <b-tr>
+              <b-td v-for="(value, attr) in report_v2.vaccine_reports.data" :key="attr">
+                <b-input type="number" size="sm" min="0" v-bind:title="attr" v-model="report_v2.vaccine_reports.data[attr]" />
+              </b-td>
+            </b-tr>
+          </b-tbody>
+        </b-table-simple>
+      </div>
+
       <b-button v-on:click="saveReport()"
                 v-bind:disabled="saving"
                 variant="primary">Save Report</b-button>
@@ -141,6 +159,7 @@
         },
         report: {},
         hrReports: {},
+        report_v2: {},
         reportLoaded: false,
         tableCompact: false,
         statusOptions: [
@@ -251,6 +270,8 @@
                 });
               });
             }
+            // v2 report system
+            this.report_v2 = response.report_v2;
             // complete
             this.loading = false;
             this.reportLoaded = true;
@@ -272,6 +293,14 @@
         payload.report = JSON.parse(JSON.stringify( this.report ));
         // attach health region reports
         payload.hr_report = JSON.parse(JSON.stringify( this.hrReports ));
+        // custom reports
+        if( this.report_v2 ) {
+          payload.report_v2 = {};
+          Object.keys(this.report_v2).forEach(( report_table ) => {
+            let report_data = JSON.parse(JSON.stringify( this.report_v2[report_table] ));
+            payload.report_v2[report_table] = report_data.data;
+          });
+        }
         // post
         this.$axios.$post( `manage/report`, payload )
           .then(response => {
@@ -307,6 +336,7 @@
         this.form.status = null;
         this.reportLoaded = false;
         this.regionHash = {};
+        this.report_v2 = {};
       },
 
       /**
@@ -324,6 +354,14 @@
       hrReportAttrs() {
         let { vaccines_distributed, ...attrs } = this.attrs;
         return attrs;
+      },
+      hasVaccineReport() {
+        return this.report_v2 && this.report_v2.vaccine_reports && this.report_v2.vaccine_reports.enabled;
+      },
+    },
+    filters: {
+      formatAttr: function(value) {
+        return value.replace(/_/g, ' ');
       },
     },
   }
@@ -355,6 +393,10 @@
 
   .province-select .btn-primary {
     text-decoration: underline;
+  }
+
+  table.report-v2-table {
+    width: auto;
   }
 
   /* hide increment arrows */
