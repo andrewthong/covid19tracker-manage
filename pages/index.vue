@@ -8,6 +8,10 @@
 <script>
 export default {
   middleware: 'auth',
+  data: function() {
+    return {
+    }
+  },
 }
 </script>
 
