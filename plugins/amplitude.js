@@ -1,7 +1,7 @@
 import amplitude from 'amplitude-js';
 
-export default (context, inject) =>
+export default ({$config: { amplitudeKey }}, inject) =>
 {
-  const ampl = amplitude.getInstance().init(process.env.AMPLITUDE_API_KEY);
+  const ampl = amplitude.getInstance().init(amplitudeKey);
   inject('amplitude', amplitude)
 }

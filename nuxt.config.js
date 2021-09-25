@@ -2,6 +2,7 @@ export default {
 
   publicRuntimeConfig: {
     appEnv: process.env.APP_ENV || `local`,
+    amplitudeKey: process.env.AMPLITUDE_API_KEY || false,
   },
 
   privateRuntimeConfig: {
