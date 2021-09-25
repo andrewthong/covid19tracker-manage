@@ -58,6 +58,7 @@ export default {
   },
   created() {
     this.loadUsers();
+    this.$amplitude.getInstance().logEvent('view_users');
   },
   methods: {
 

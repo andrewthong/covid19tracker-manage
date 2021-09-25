@@ -3,7 +3,7 @@
 
     <h2 class="mb-3">Processing</h2>
 
-    <p>Queue information as of {{ lastUpdated }} <b-button variant="secondary" size="sm" v-on:click="getStatus()">Refresh</b-button></p>
+    <p>Queue information as of {{ lastUpdated }} <b-button variant="secondary" size="sm" v-on:click="refreshStatus()">Refresh</b-button></p>
 
     <div v-for="(group, index) in status" v-bind:key="index" class="mb-5">
 
@@ -62,6 +62,7 @@
     created: function() {
       this.getStatus();
       this.tzOffset = (new Date()).getTimezoneOffset() * 60000;
+      this.$amplitude.getInstance().logEvent('view_processing');
     },
     methods: {
       getStatus() {
@@ -76,6 +77,10 @@
             this.lastUpdated = (new Date(Date.now() - this.tzOffset)).toISOString().slice(0, -5).replace('T', ' ')
           });
       },
+      refreshStatus() {
+        this.getStatus();
+        this.$amplitude.getInstance().logEvent('refresh_status');
+      }
     },
     filters: {
       at: function(value) {
