@@ -36,6 +36,9 @@
         },
       }
     },
+    created: function() {
+      this.$amplitude.getInstance().logEvent('view_cache');
+    },
     methods: {
       clearCache() {
         this.alert.show = false;
@@ -46,6 +49,7 @@
             this.alert.show = true;
             this.clearing = false;
           });
+        this.$amplitude.getInstance().logEvent('clear_cache');
       },
     },
   }

@@ -2,6 +2,7 @@ export default {
 
   publicRuntimeConfig: {
     appEnv: process.env.APP_ENV || `local`,
+    amplitudeKey: process.env.AMPLITUDE_API_KEY || false,
   },
 
   privateRuntimeConfig: {
@@ -33,6 +34,7 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
+    '~/plugins/amplitude.js'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
