@@ -83,10 +83,12 @@ export default {
         let response = await this.$auth.loginWith('local', { data: this.form })
         this.$auth.setUser( response.data.user );
         this.$auth.setUserToken( response.data.token, response.data.refresh_token );
+        this.$amplitude.getInstance().logEvent('login_success');
       } catch (err) {
         this.alert.show = true;
         this.alert.description = 'Invalid email or password';
         this.loading = false;
+        this.$amplitude.getInstance().logEvent('login_failed');
       }
     },
   },

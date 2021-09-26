@@ -190,6 +190,8 @@
       Object.keys(this.baseAttrs).forEach(v => this.baseAttrs[v] = null);
       // reset
       this.resetReport();
+      // amp
+      this.$amplitude.getInstance().logEvent('view_reporting');
     },
     methods: {
 
@@ -279,6 +281,8 @@
           .catch(errors => {
             console.dir(errors);
           });
+        // amp
+        this.$amplitude.getInstance().logEvent('load_report', {'province': this.form.province, 'date': this.form.date});
       },
 
       /**
@@ -318,6 +322,8 @@
             this.alert.description = error.response.data.message;
             this.saving = false;
           });
+        // amp
+        this.$amplitude.getInstance().logEvent('save_report', {'province': this.form.province, 'date': this.form.date});
       },
 
       /**
