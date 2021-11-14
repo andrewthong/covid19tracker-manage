@@ -143,6 +143,7 @@
     },
     created() {
       this.loadOptions();
+      this.form.date = this.currentDate();
       // set input types
       for (let attr in this.attrs) {
         let parts = attr.split('_');
