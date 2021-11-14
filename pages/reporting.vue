@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="pt-3">
 
-    <h1 class="h2 mb-4">Reporting</h1>
+    <h1 class="h2 mb-4">Reports</h1>
 
     <b-card class="mb-4">
 
