@@ -12,7 +12,8 @@
         <b-collapse id="nav-collapse" is-nav>
 
           <b-navbar-nav v-if="isLoggedIn" class="pl-3">
-            <b-nav-item :to="{name: 'reporting'}" link-classes="text-light">Reporting</b-nav-item>
+            <b-nav-item :to="{name: 'reporting'}" link-classes="text-light">Reports</b-nav-item>
+            <b-nav-item :to="{name: 'sr-reporting'}" link-classes="text-light">Sub Regions</b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
