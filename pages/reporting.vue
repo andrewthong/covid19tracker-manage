@@ -217,10 +217,19 @@
 
       /**
        * helper to pull user Y-m-d
+       * 2022-09-01 update to use Regina timezone
        */
       currentDate() {
         let d = new Date();
-        return new Date(d.getTime() - (d.getTimezoneOffset() * 60000 )).toISOString().split("T")[0];
+        // set date based on timezone America/Regina
+        let ds = d.toLocaleString('en-CA', {timeZone: 'America/Regina'}).split(',')[0];
+        // check if format matches Y-m-d
+        if( ds.match(/^\d{4}-\d{2}-\d{2}$/) ) {
+          return ds;
+        } else {
+          // fallback to ISOString method
+          return new Date(d.getTime() + (-6 * 60000 )).toISOString().split("T")[0];
+        }
       },
 
       /**
