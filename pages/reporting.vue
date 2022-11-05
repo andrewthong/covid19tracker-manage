@@ -147,6 +147,7 @@
           'vaccinated': 'Vaccinated',
           'boosters_1': 'Boosters 1',
           'boosters_2': 'Boosters 2',
+          'boosters_3': 'Boosters 3',
         },
         baseAttrs: null,
         provinces: [],
